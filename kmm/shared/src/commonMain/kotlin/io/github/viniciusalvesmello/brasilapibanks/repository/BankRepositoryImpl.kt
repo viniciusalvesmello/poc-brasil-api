@@ -8,6 +8,7 @@ import io.ktor.client.call.*
 class BankRepositoryImpl : BankRepository {
     private val client: Client by lazy { Factory.client }
 
+    @Throws(Exception::class)
     override suspend fun getListBanks(): List<Bank> = client.get(PATH_LIST_BANKS).body()
 
     private companion object {

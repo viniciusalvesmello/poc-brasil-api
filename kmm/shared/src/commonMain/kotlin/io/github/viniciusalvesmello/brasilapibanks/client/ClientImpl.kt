@@ -6,13 +6,18 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 
 class ClientImpl : Client {
 
     private val client: HttpClient by lazy {
-        HttpClient() {
+        HttpClient {
             install(ContentNegotiation) {
-                json()
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                })
             }
         }
     }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainScope = MainScope()
+    private val scope = MainScope()
     private val repository: BankRepository by lazy {
         Factory.bankRepository
     }
@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getBanksTexts(resultBanks: (String) -> Unit = {}) {
-        mainScope.launch {
+        scope.launch {
             runCatching {
                 repository.getListBanks()
             }.onSuccess { banks ->
-                resultBanks(banks.joinToString { it.fullName })
+                resultBanks(banks.joinToString { it.fullName ?: "" })
             }.onFailure {
                 resultBanks("Error: ${it.localizedMessage}")
             }
